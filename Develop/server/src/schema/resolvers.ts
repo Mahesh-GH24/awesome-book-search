@@ -1,13 +1,17 @@
-//import User from "../models/User";
+import User from "../models/User.js";
 
 const resolvers = {
   Query: {
     helloWorld: () => {
       return "Hello, World!";
-    }
-    // getSingleUser: async () => {
-    //   return await User.find({});
-    //  }
+    },
+    getAllUsers: async () => {
+      try {
+        return await User.find({});
+      } catch (error:any) {
+        throw new Error('Failed to fetch users: ' + error.message);
+      }
+     }
   }
 };
 

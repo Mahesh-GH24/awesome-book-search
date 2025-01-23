@@ -1,10 +1,8 @@
 const typeDefs = `
   type User {
-    _id: ID!
     username: String
     email: String
     password: String
-    bookCount: Int
     savedBooks: [Book]
   }
   
@@ -18,7 +16,7 @@ const typeDefs = `
   
   type Query {
    helloWorld: String!
-   getSingleUser: [User]!
+   getAllUsers: [User]!
   }
 `;
 
