@@ -11,15 +11,16 @@ export const getMe = (token: string) => {
   });
 };
 
-export const createUser = (userData: User) => {
-  return fetch('/api/users', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(userData),
-  });
-};
+//Commented on 1/24
+// export const createUser = (userData: User) => {
+//   return fetch('/api/users', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify(userData),
+//   });
+// };
 
 export const loginUser = (userData: User) => {
   return fetch('/api/users/login', {
