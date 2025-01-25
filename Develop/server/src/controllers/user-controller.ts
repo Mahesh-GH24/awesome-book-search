@@ -18,15 +18,16 @@ export const getSingleUser = async (req: Request, res: Response) => {
 };
 
 // create a user, sign a token, and send it back (to client/src/components/SignUpForm.js)
-export const createUser = async (req: Request, res: Response) => {
-  const user = await User.create(req.body);
+//Commented on 1/24
+// export const createUser = async (req: Request, res: Response) => {
+//   const user = await User.create(req.body);
 
-  if (!user) {
-    return res.status(400).json({ message: 'Something is wrong!' });
-  }
-  const token = signToken(user.username, user.password, user._id);
-  return res.json({ token, user });
-};
+//   if (!user) {
+//     return res.status(400).json({ message: 'Something is wrong!' });
+//   }
+//   const token = signToken(user.username, user.password, user._id);
+//   return res.json({ token, user });
+// };
 
 // login a user, sign a token, and send it back (to client/src/components/LoginForm.js)
 // {body} is destructured req.body
