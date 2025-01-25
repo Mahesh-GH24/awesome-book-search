@@ -1,18 +1,31 @@
 // import  User from "../models/User.js";
 // import { BookDocument } from "../models/Book.js";
 
-import { BookDocument } from '../models/Book';
-import { User} from '../models/index.js';
+//import { saveBook } from '../controllers/user-controller';
+//import { BookDocument } from '../models/Book';
+
+//import { BookDocument } from '../models/Book.js';
+import { Book, User } from '../models/index.js';
 import { AuthenticationError, signToken } from '../services/auth.js';
+
+//defined Book interface
+interface Book {
+  bookId: string;
+  authors: string[];
+  description: string;
+  title: string;
+  image: string;
+  link: string;
+}
 
 // defined User interface
 interface User {
-  _id: string
-  username: string
-  email: string
-  bookCount: number
-  password: string
-  savedBooks: BookDocument
+  _id: string;
+  username: string;
+  email: string;
+  bookCount: number;
+  password: string;
+  savedBooks: Book[];
 }
 
 interface AddUserArgs {
@@ -28,6 +41,16 @@ interface LoginUserArgs {
   password: string;
 }
 
+interface AddBookArgs {
+  input: {
+    authors: [string];
+    description: string;
+    title: string;
+    image: string;
+    link: string;
+  }
+}
+
 interface Context {
   user?: User;
 }
@@ -37,13 +60,13 @@ const resolvers = {
     helloWorld: () => {
       return "Hello, World!";
     },
-    getAllUsers: async () => {
-      try {
-        return await User.find({});
-      } catch (error:any) {
-        throw new Error('Failed to fetch users: ' + error.message);
-      }
-     },
+    // getAllUsers: async () => {
+    //   try {
+    //     return await User.find({});
+    //   } catch (error:any) {
+    //     throw new Error('Failed to fetch users: ' + error.message);
+    //   }
+    //  },
      me: async (_parent: any, _args: any, context: Context): Promise<User | null> => {
       if (context.user) {
         return await User.findOne({_id: context.user._id});
@@ -80,6 +103,24 @@ const resolvers = {
       const token = signToken(user.username, user.email, user._id);
       console.log("token signed in resolvers");
       return { token, user };
+    },
+
+    //saveBook
+    saveBook: async (_parent: any, { input }: AddBookArgs, context: any) => {
+      if (context.user) {
+        //create book
+        const book = await Book.create({ ...input});
+
+        //now find user and update book
+        await User.findOneAndUpdate(
+          { _id: context.user._id},
+          { $addToSet: {savedBooks: book._id}}
+        );
+
+        return User;
+      }
+      throw AuthenticationError;
+      ('You need to be logged in!');
     }
   }
 };
