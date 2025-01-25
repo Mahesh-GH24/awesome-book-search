@@ -51,6 +51,11 @@ interface AddBookArgs {
   }
 }
 
+
+interface RemoveBookArgs {
+  bookId: string;
+}
+
 interface Context {
   user?: User;
 }
@@ -121,6 +126,28 @@ const resolvers = {
       }
       throw AuthenticationError;
       ('You need to be logged in!');
+    },
+
+    //removeBook
+    removeBook: async (_parent: any, {bookId}: RemoveBookArgs, context: any) => {
+      if (context.user) {
+        //find and delete
+        const book = await Book.findOneAndDelete(
+          { bookId: bookId }
+        );
+
+        if(!book){
+          throw AuthenticationError;
+        }
+
+        await User.findByIdAndUpdate(
+          { _id: context.user._id },
+          { $pull: { savedBooks: book._id }}
+        );
+
+        return User;
+      }
+      throw AuthenticationError;
     }
   }
 };
