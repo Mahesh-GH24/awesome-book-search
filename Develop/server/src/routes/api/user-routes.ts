@@ -1,9 +1,11 @@
 import express from 'express';
 const router = express.Router();
 import {
-  createUser,
+  //commented on 1/24
+  //createUser,
   getSingleUser,
-  saveBook,
+  //commented on 1/24
+  //saveBook,
   deleteBook,
   login,
 } from '../../controllers/user-controller.js';
@@ -12,7 +14,8 @@ import {
 import { authenticateToken } from '../../services/auth.js';
 
 // put authMiddleware anywhere we need to send a token for verification of user
-router.route('/').post(createUser).put(authenticateToken, saveBook);
+//commented on 1/24
+//router.route('/').post(createUser).put(authenticateToken, saveBook);
 
 router.route('/login').post(login);
 
