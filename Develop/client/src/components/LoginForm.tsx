@@ -3,15 +3,24 @@ import { useState } from 'react';
 import type { ChangeEvent, FormEvent } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 
-import { loginUser } from '../utils/API';
+//Commented on 1/24
+//import { loginUser } from '../utils/API';
 import Auth from '../utils/auth';
 import type { User } from '../models/User';
+
+//Added on 1/24
+import { useMutation } from '@apollo/client';
+import { LOGIN_USER } from '../utils/mutations';
+
 
 // biome-ignore lint/correctness/noEmptyPattern: <explanation>
 const LoginForm = ({}: { handleModalClose: () => void }) => {
   const [userFormData, setUserFormData] = useState<User>({ username: '', email: '', password: '', savedBooks: [] });
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
+
+  //Added on 1/24
+  const [login] = useMutation(LOGIN_USER);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -29,16 +38,31 @@ const LoginForm = ({}: { handleModalClose: () => void }) => {
     }
 
     try {
-      const response = await loginUser(userFormData);
+      //alert(userFormData.email);
+      //alert(userFormData.password);
 
-      if (!response.ok) {
+      //commented on 1/24
+      //const response = await loginUser(userFormData);
+
+      const {data} = await login({
+        variables: { ...userFormData}
+      })
+
+      if (!data) {
         throw new Error('something went wrong!');
       }
 
-      const { token } = await response.json();
-      Auth.login(token);
+      //Commented out
+      // const { token } = await data.json();
+      // Auth.login(token);
+
+      //Added
+      console.log(data);
+      //Auth.login(data.loginUser.token);
+      Auth.login(data.login.token);
+
     } catch (err) {
-      console.error(err);
+      console.error("Error here......" + err);
       setShowAlert(true);
     }
 

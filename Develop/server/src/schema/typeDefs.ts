@@ -32,10 +32,13 @@ const typeDefs = `
    helloWorld: String!
    getAllUsers: [User]!
    getSingleUser(userId: ID!): User
+   me: User
   }
 
   type Mutation {
     addUser(input: UserInput!) : Auth
+    login(email: String!, password: String!): Auth
+
   }
 `;
 
