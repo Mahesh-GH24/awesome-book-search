@@ -57,6 +57,7 @@ const SearchBooks = () => {
         title: book.volumeInfo.title,
         description: book.volumeInfo.description,
         image: book.volumeInfo.imageLinks?.thumbnail || '',
+        // add link
       }));
 
       setSearchedBooks(bookData);
@@ -68,6 +69,7 @@ const SearchBooks = () => {
 
   // create function to handle saving a book to our database
   const handleSaveBook = async (bookId: string) => {
+    const [saveBook] = useMutation(SAVE_BOOK);
     // find the book in `searchedBooks` state by the matching id
     const bookToSave: Book = searchedBooks.find((book) => book.bookId === bookId)!;
 
@@ -79,16 +81,20 @@ const SearchBooks = () => {
     }
 
     try {
-      //const response = await saveBook(bookToSave, token);
-
-      const [saveBook] = useMutation(SAVE_BOOK);
-      const {data} = await saveBook({
-        variables: { input: { ...bookToSave } },
+      await saveBook({
+        variables: { input: {...bookToSave} },
       });
 
-      if (!data) {
-        throw new Error('something went wrong!');
-      }
+
+
+      // const [saveBook] = useMutation(SAVE_BOOK);
+      // const {data} = await saveBook({
+      //   variables: { input: { ...bookToSave } },
+      // });
+
+      // if (!data) {
+      //   throw new Error('something went wrong!');
+      // }
 
       // if book successfully saves to user's account, save book id to state
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
