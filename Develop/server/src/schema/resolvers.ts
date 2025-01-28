@@ -6,7 +6,9 @@
 
 //import { BookDocument } from '../models/Book.js';
 import { Book, User } from '../models/index.js';
+//import { UserDocument } from '../models/User.js';
 import { AuthenticationError, signToken } from '../services/auth.js';
+import {Schema} from 'mongoose';
 
 //defined Book interface
 interface Book {
@@ -20,7 +22,7 @@ interface Book {
 
 // defined User interface
 interface User {
-  _id: string;
+  _id: Schema.Types.ObjectId;
   username: string;
   email: string;
   bookCount: number;
@@ -74,9 +76,10 @@ const resolvers = {
     //  },
      me: async (_parent: any, _args: any, context: Context): Promise<User | null> => {
       if (context.user) {
-        return await User.findOne({_id: context.user._id});
+        const user = await User.findOne({_id: context.user._id}).populate('savedBooks');
+        return user;
       }
-      throw AuthenticationError;
+      throw new AuthenticationError('Not Authenticated');
      }
   },
   Mutation: {
