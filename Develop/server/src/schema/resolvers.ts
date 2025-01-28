@@ -115,17 +115,18 @@ const resolvers = {
       if (context.user) {
         //create book
         const book = await Book.create({ ...input});
-
         //now find user and update book
-        await User.findOneAndUpdate(
+        const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id},
-          { $addToSet: {savedBooks: book._id}}
+          { $addToSet: {savedBooks: book._id}},
+          {new: true}
         );
+        
 
-        return User;
+        return updatedUser;
       }
-      throw AuthenticationError;
-      ('You need to be logged in!');
+      throw new AuthenticationError('user not authenticated');
+      
     },
 
     //removeBook

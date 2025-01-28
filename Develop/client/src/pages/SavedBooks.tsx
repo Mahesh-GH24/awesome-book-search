@@ -26,17 +26,19 @@ import { REMOVE_BOOK } from '../utils/mutations';
 
 const SavedBooks = () => {
 
+  const token = Auth.loggedIn() ? Auth.getToken() : null;
+  if (!token) {
+    return false;
+  }
+
   const { loading, error, data: userData } = useQuery(GET_ME);
   const [removeBook] = useMutation(REMOVE_BOOK);
 
  // const user = userData?.me || userData?.user || {};
   
-  if (error) return <p>Error: {error.message}</p>;
+  if (error) return <p>Error1: {error.message}</p>;
   
-  const token = Auth.loggedIn() ? Auth.getToken() : null;
-  if (!token) {
-    return false;
-  }
+
 
   // const [userData, setUserData] = useState<User>({
   //   username: '',
