@@ -25,6 +25,7 @@ const SavedBooks = () => {
   }
   
   const { loading, error, data: userData } = useQuery(GET_ME);
+  
   const [removeBook] = useMutation(REMOVE_BOOK);
 
    if (error) return <p>Error1: {error.message}</p>;
@@ -42,6 +43,7 @@ const SavedBooks = () => {
         //const response = await deleteBook(bookId, token);
         await removeBook({
           variables: { bookId},
+          refetchQueries: [{query: GET_ME}],
         });
       
         removeBookId(bookId);
