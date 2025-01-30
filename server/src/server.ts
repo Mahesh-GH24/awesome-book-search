@@ -10,6 +10,10 @@ import { expressMiddleware } from '@apollo/server/express4';
 import {typeDefs, resolvers } from './schema/index.js';
 import { authenticateToken } from './services/auth.js';
 
+import { fileURLToPath } from 'node:url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 //Commented
 //import routes from './routes/index.js';
 
