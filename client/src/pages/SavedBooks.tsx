@@ -57,6 +57,8 @@ const SavedBooks = () => {
     return <h2>LOADING...</h2>;
   }
   console.log(userData);
+  console.log(userData.me.username);
+  
   //console.log(userData.me)
 
   if (!userData || !userData.me || !userData.me.savedBooks) {
@@ -67,8 +69,8 @@ const SavedBooks = () => {
     <>
       <div className='text-light bg-dark p-5'>
         <Container>
-          {userData.username ? (
-            <h1>Viewing {userData.username}'s saved books!</h1>
+          {userData.me.username ? (
+            <h1>Viewing {userData.me.username}'s saved books!</h1>
           ) : (
             <h1>Viewing saved books!</h1>
           )}
