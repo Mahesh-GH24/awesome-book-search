@@ -20,6 +20,11 @@
    ## Installation
    The best way to install this Front end React application is to use Render which easily integrates with Github!Render provides logs and statistics as well. Render has seemless integrations with MongoDB Atlas as well.
 
+   ## GitHub Repository and Deployed Application URL
+   https://github.com/Mahesh-GH24/awesome-book-search
+   
+   https://awesome-book-search.onrender.com/    
+
    ## Technologies
    React, GraphQL, MongoDB, MongoDB Atlas, Google API, Render, JWT, CSS, node & npm
 
