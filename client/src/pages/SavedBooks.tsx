@@ -68,7 +68,7 @@ const SavedBooks = () => {
       <div className='text-light bg-dark p-5'>
         <Container>
           {userData.username ? (
-            <h1>Viewing {userData.me.username}'s saved books!</h1>
+            <h1>Viewing {userData.username}'s saved books!</h1>
           ) : (
             <h1>Viewing saved books!</h1>
           )}
